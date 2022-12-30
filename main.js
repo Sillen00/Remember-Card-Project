@@ -5,7 +5,7 @@ function main() {
 }
 
 function cardsFunction() {
-  const cards = [
+  const cardArray = [
     {
       name: "anime",
       img: "./images/Anime.png",
@@ -79,14 +79,14 @@ function cardsFunction() {
       img: "./images/Troll.png",
     },
   ];
-  cards.sort(() => 0.5 - Math.random());
-  console.log(cards);
+  cardArray.sort(() => 0.5 - Math.random());
+  console.log(cardArray);
 
-  createBoard(cards);
+  createBoard();
 
-  function createBoard(cards) {
+  function createBoard() {
     const grid = document.querySelector(".grid");
-    for (let i = 0; i < cards.length; i++) {
+    for (let i = 0; i < cardArray.length; i++) {
       const card = document.createElement("img");
       card.setAttribute("src", "./images/blank.jpg");
       card.setAttribute("data-id", i);
@@ -96,10 +96,50 @@ function cardsFunction() {
   }
 
   let cardsChosen = [];
+  let cardsChosenIDs = [];
+  let cardsWon = [];
 
   function flipCard() {
     let cardID = this.getAttribute("data-id");
-    console.log(cards[cardID].name);
-    cardsChosen.push(cards[cardID].name);
+    cardsChosen.push(cardArray[cardID].name);
+    cardsChosenIDs.push(cardID)
+    this.setAttribute("src", cardArray[cardID].img)
+    if(cardsChosen.length === 2){
+        setTimeout(checkForMatch, 100)
+    }
+  }
+
+  function checkForMatch(){
+    const cards = document.querySelectorAll("img");
+    const optionOneID = cardsChosenIDs[0];
+    const optionTwoID = cardsChosenIDs[1];
+
+    if(optionOneID === optionTwoID){
+        alert("Your have clicked the same image!")
+        cards[optionOneID].setAttribute("src", "./images/blank.jpg")
+        cards[optionTwoID].setAttribute("src", "./images/blank.jpg")
+    }
+    else if(cardsChosen[0] === cardsChosen[1]){
+        // alert("You have found a match!")
+        cards[optionOneID].setAttribute("src", "./images/white.png")
+        cards[optionTwoID].setAttribute("src", "./images/white.png")
+        cards[optionOneID].removeEventListener("click", flipCard)
+        cards[optionTwoID].removeEventListener("click", flipCard)
+        cardsWon.push(cardsChosen)
+    }else{
+        let myInterval = setInterval(function () {
+            cards[optionOneID].setAttribute("src", "./images/blank.jpg")
+            cards[optionTwoID].setAttribute("src", "./images/blank.jpg")
+            clearInterval(myInterval);
+        }, 250);
+    }
+    cardsChosen = [];
+    cardsChosenIDs = [];
+    let resultDisplay = document.querySelector("#result")
+    resultDisplay.textContent = cardsWon.length;
+    console.log(cardsWon.length)
+    if(cardsWon.length === cardArray.length / 2){
+        resultDisplay.textContent = "Congratulations! You have won!"
+    }
   }
 }
