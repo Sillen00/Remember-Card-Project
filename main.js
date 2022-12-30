@@ -102,44 +102,43 @@ function cardsFunction() {
   function flipCard() {
     let cardID = this.getAttribute("data-id");
     cardsChosen.push(cardArray[cardID].name);
-    cardsChosenIDs.push(cardID)
-    this.setAttribute("src", cardArray[cardID].img)
-    if(cardsChosen.length === 2){
-        setTimeout(checkForMatch, 100)
+    cardsChosenIDs.push(cardID);
+    this.setAttribute("src", cardArray[cardID].img);
+    if (cardsChosen.length === 2) {
+      setTimeout(checkForMatch, 100);
     }
   }
 
-  function checkForMatch(){
+  function checkForMatch() {
     const cards = document.querySelectorAll("img");
     const optionOneID = cardsChosenIDs[0];
     const optionTwoID = cardsChosenIDs[1];
 
-    if(optionOneID === optionTwoID){
-        alert("Your have clicked the same image!")
-        cards[optionOneID].setAttribute("src", "./images/blank.jpg")
-        cards[optionTwoID].setAttribute("src", "./images/blank.jpg")
-    }
-    else if(cardsChosen[0] === cardsChosen[1]){
-        // alert("You have found a match!")
-        cards[optionOneID].setAttribute("src", "./images/white.png")
-        cards[optionTwoID].setAttribute("src", "./images/white.png")
-        cards[optionOneID].removeEventListener("click", flipCard)
-        cards[optionTwoID].removeEventListener("click", flipCard)
-        cardsWon.push(cardsChosen)
-    }else{
-        let myInterval = setInterval(function () {
-            cards[optionOneID].setAttribute("src", "./images/blank.jpg")
-            cards[optionTwoID].setAttribute("src", "./images/blank.jpg")
-            clearInterval(myInterval);
-        }, 250);
+    if (optionOneID === optionTwoID) {
+      alert("Your have clicked the same image!");
+      cards[optionOneID].setAttribute("src", "./images/blank.jpg");
+      cards[optionTwoID].setAttribute("src", "./images/blank.jpg");
+    } else if (cardsChosen[0] === cardsChosen[1]) {
+      // alert("You have found a match!")
+      cards[optionOneID].setAttribute("src", "./images/white.png");
+      cards[optionTwoID].setAttribute("src", "./images/white.png");
+      cards[optionOneID].removeEventListener("click", flipCard);
+      cards[optionTwoID].removeEventListener("click", flipCard);
+      cardsWon.push(cardsChosen);
+    } else {
+      let myInterval = setInterval(function () {
+        cards[optionOneID].setAttribute("src", "./images/blank.jpg");
+        cards[optionTwoID].setAttribute("src", "./images/blank.jpg");
+        clearInterval(myInterval);
+      }, 250);
     }
     cardsChosen = [];
     cardsChosenIDs = [];
-    let resultDisplay = document.querySelector("#result")
+    let resultDisplay = document.querySelector("#result");
     resultDisplay.textContent = cardsWon.length;
-    console.log(cardsWon.length)
-    if(cardsWon.length === cardArray.length / 2){
-        resultDisplay.textContent = "Congratulations! You have won!"
+    console.log(cardsWon.length);
+    if (cardsWon.length === cardArray.length / 2) {
+      resultDisplay.textContent = "Congratulations! You have won!";
     }
   }
 }
