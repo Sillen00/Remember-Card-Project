@@ -13,7 +13,12 @@ body{
 }
 
 .grid {
-    width: 400px;
-    height: 300px;
+    width: 600px;
     border: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr)
+}
+
+.grid img{
+    width: 100%;
 }
