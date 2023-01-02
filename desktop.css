@@ -1,0 +1,7 @@
+@media (width > 1028px) {
+
+    .grid {
+        width: calc(100vw - 400px);
+    
+    }
+}
